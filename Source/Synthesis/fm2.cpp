@@ -7,6 +7,7 @@ void Fm2::Init(float samplerate)
     //init oscillators
     car_.Init(samplerate);
     mod_.Init(samplerate);
+    sample_rate_ = samplerate;
 
     //set some reasonable values
     lfreq_  = 440.f;
@@ -34,7 +35,12 @@ float Fm2::Process()
     }
 
     float modval = mod_.Process();
-    car_.PhaseAdd(modval * idx_);
+    // Scale index by modulator frequency to maintain constant timbre across carrier frequencies
+    // Modulation index I = (peak frequency deviation) / (modulator frequency)
+    // Phase deviation per sample = I * modval * (modulator_freq / sample_rate)
+    float modulator_freq = lfreq_ * lratio_;
+    float effective_idx = idx_ * (modulator_freq / sample_rate_);
+    car_.PhaseAdd(modval * effective_idx);
     return car_.Process();
 }
 

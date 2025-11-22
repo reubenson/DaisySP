@@ -67,6 +67,7 @@ class Fm2
     Oscillator mod_, car_;
     float      idx_;
     float      freq_, lfreq_, ratio_, lratio_;
+    float      sample_rate_;
 };
 } // namespace daisysp
 #endif
