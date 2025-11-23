@@ -30,7 +30,7 @@ class Fm2
     ~Fm2() {}
 
     /** Initializes the FM2 module.
-        \param samplerate - The sample rate of the audio engine being run. 
+        \param samplerate - The sample rate of the audio engine being run.
     */
     void Init(float samplerate);
 
@@ -57,6 +57,9 @@ class Fm2
     /** Returns the current FM index. */
     float GetIndex();
 
+    /** Returns the current modulator output sample (for routing to external outputs) */
+    float GetModulatorOutput();
+
     /** Resets both oscillators */
     void Reset();
 
@@ -68,6 +71,7 @@ class Fm2
     float      idx_;
     float      freq_, lfreq_, ratio_, lratio_;
     float      sample_rate_;
+    float      last_modulator_output_;  // Store last modulator output for GetModulatorOutput()
 };
 } // namespace daisysp
 #endif
